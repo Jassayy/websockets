@@ -9,3 +9,43 @@ body {
      background-position: center;
      background-attachment: fixed;
 }
+
+/* Add this to your CSS file */
+@keyframes shake {
+     0% {
+          transform: translate(1px, 0);
+     }
+     25% {
+          transform: translate(-1px, 0);
+     }
+     50% {
+          transform: translate(1px, 0);
+     }
+     75% {
+          transform: translate(-1px, 0);
+     }
+     100% {
+          transform: translate(0, 0);
+     }
+}
+
+.shake {
+     animation: shake 0.5s;
+}
+
+/* Replace the bounce keyframes with float keyframes */
+@keyframes float {
+     0% {
+          transform: translateY(0);
+     }
+     50% {
+          transform: translateY(-10px);
+     }
+     100% {
+          transform: translateY(0);
+     }
+}
+
+.float {
+     animation: float infinite 2s ease-in-out;
+}

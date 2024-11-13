@@ -10,11 +10,12 @@ const Message = ({ message }) => {
      const fromMe = message.senderId === authUser.user._id;
      const background = fromMe ? "bg-blue-500" : "bg-slate-800";
      const formattedTime = extractTime(message.createdAt);
+     const shakeClass = message.shouldShake ? "shake" : "";
 
      const chatClassName = fromMe ? "chat-end" : "chat-start";
      return (
           <>
-               <div className={`chat ${chatClassName}`}>
+               <div className={`chat ${chatClassName} ${shakeClass}`}>
                     <div className="chat-image avatar">
                          <div className="w-10 rounded-full">
                               <img
