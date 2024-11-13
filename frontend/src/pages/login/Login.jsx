@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
      const [username, setUsername] = useState("");
      const [password, setPassword] = useState("");
-     const handleSubmit = (e) => {
+
+     const { loading, login } = useLogin();
+     const handleSubmit = async (e) => {
           e.preventDefault();
-          console.log({ username, password });
+          // console.log({ username, password });
+          await login({ username, password });
      };
 
      return (
@@ -48,15 +52,22 @@ const Login = () => {
                          </div>
                          <div className="mt-4 mb-4">
                               <Link
-                                   to="/"
+                                   to="/signup"
                                    className="text-sm hover:underline hover:text-blue-400"
                               >
                                    Don't have an account? Sign Up here
                               </Link>
                          </div>
                          <div>
-                              <button className="btn btn-accent btn-outline w-full text-center">
-                                   Login
+                              <button
+                                   className="btn btn-accent btn-outline w-full text-center"
+                                   disabled={loading}
+                              >
+                                   {loading ? (
+                                        <span className="loading loading-spinner text-warning"></span>
+                                   ) : (
+                                        "Login"
+                                   )}
                               </button>
                          </div>
                     </form>

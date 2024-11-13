@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import GenderCheckBox from "./GenderCheckBox";
+import useSignup from "../../hooks/useSignup";
 
 const SignUp = () => {
      const [fullName, setFullName] = useState("");
@@ -8,9 +9,16 @@ const SignUp = () => {
      const [password, setPassword] = useState("");
      const [email, setEmail] = useState("");
      const [gender, setGender] = useState("");
-     const handleSubmit = (e) => {
+
+     const { signup, loading } = useSignup();
+
+     const handleCheckBoxChange = (gender) => {
+          setGender(gender);
+     };
+     const handleSubmit = async (e) => {
           e.preventDefault();
           console.log({ fullName, username, password, email, gender });
+          await signup({ fullName, username, password, email, gender });
      };
      return (
           <div className="flex flex-col items-center justify-center min-w-[90%] mx-auto md:min-w-[500px]">
@@ -77,7 +85,10 @@ const SignUp = () => {
                                    onChange={(e) => setEmail(e.target.value)}
                               />
                          </div>
-                         <GenderCheckBox  />
+                         <GenderCheckBox
+                              onCheckBoxChange={handleCheckBoxChange}
+                              selectedGender={gender}
+                         />
                          <div className="mt-4 mb-4">
                               <Link
                                    to="/login"
@@ -87,8 +98,15 @@ const SignUp = () => {
                               </Link>
                          </div>
                          <div>
-                              <button className="btn btn-accent btn-outline w-full text-center">
-                                   Login
+                              <button
+                                   className="btn btn-accent btn-outline w-full text-center"
+                                   disabled={loading}
+                              >
+                                   {loading ? (
+                                        <span className="loading loading-spinner text-warning"></span>
+                                   ) : (
+                                        "Sign Up"
+                                   )}
                               </button>
                          </div>
                     </form>

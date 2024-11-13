@@ -1,24 +1,40 @@
 import React from "react";
+import useConversation from "../../zustand/useConversation";
 
-const Conversation = () => {
+const Conversation = ({ conversation, lastIdx, emoji }) => {
+     const { selectedConversation, setSelectedConversation } =
+          useConversation();
+
+     const isSelected = selectedConversation?._id === conversation._id;
      return (
           <>
-               <div className="flex gap-2 items-center hover:bg-slate-800 rounded px-1 py-2 cursor-pointer w-full">
+               <div
+                    className={`flex gap-2 items-center hover:bg-slate-800 rounded px-1 py-2 cursor-pointer w-full
+                    ${isSelected ? "bg-slate-800" : ""}`}
+                    onClick={() => {
+                         setSelectedConversation(conversation);
+                    }}
+               >
                     <div className="avatar online">
                          <div className="w-12 rounded-full ">
                               <img
-                                   src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                                   src={conversation.profilePic}
                                    alt="User Avatar"
                                    className="rounded-full "
                               />
                          </div>
                     </div>
                     <div className=" w-full flex px-2 justify-between ">
-                         <p>Jassssss</p>
-                         <span>⚽️</span>
+                         <p>
+                              {conversation.fullName.charAt(0).toUpperCase() +
+                                   conversation.fullName.slice(1)}
+                         </p>
+                         <span>{emoji}</span>
                     </div>
                </div>
-               <div className="divider py-0 my-0 h-1 bg-slate-900"></div>
+               {!lastIdx && (
+                    <div className="divider py-0 my-0 h-1 bg-slate-900"></div>
+               )}
           </>
      );
 };

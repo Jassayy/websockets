@@ -70,10 +70,8 @@ export const login = async (req, res) => {
                     .json({ error: "All fields are required" });
           }
 
+          // Fetch the user from the database
           const user = await User.findOne({ username });
-
-          // console.log(password);
-          // console.log(user.password); debugging...it works now
 
           // Check if user exists
           if (!user) {
@@ -94,13 +92,9 @@ export const login = async (req, res) => {
 
           await generateTokenAndSetCookie(user?._id, res);
 
-          const loggedInUser = await User.findOne({ _id: user._id }).select(
-               "-password"
-          );
-
           return res
                .status(200)
-               .json({ loggedInUser, message: "User logged in successfully" });
+               .json({ user, message: "User logged in successfully" });
      } catch (error) {
           console.log("Error in login :: ", error.message);
           return res.status(500).json({ error: "Internal server error" });
